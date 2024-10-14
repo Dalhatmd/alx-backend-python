@@ -5,7 +5,7 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 
 async def wait_n(n, max_delay):
-    """ waits for max_delay seconds n times """
+    """ waits for {max_delay} seconds {n} times """
     tasks = [wait_random(max_delay) for _ in range(n)]
     delays = []
 
