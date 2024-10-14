@@ -2,6 +2,7 @@
 """ task 1 module """
 import asyncio
 from typing import List
+import random
 
 wait_random = __import__('0-basic_async_syntax').wait_random
 
