@@ -7,6 +7,6 @@ import time
 
 async def async_generator():
     """ yields a random number 10 times """
-    for i in range(11):
+    for _ in range(10):
         yield random.random() * 10
         await asyncio.sleep(1)
