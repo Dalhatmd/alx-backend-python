@@ -13,7 +13,8 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, "a", {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
     ])
-    def test_access_nested_map(self, nested_map: Mapping, path: Union[str, tuple], expected: Any):
+    def test_access_nested_map(self, nested_map: Mapping,
+                               path: Union[str, tuple], expected: Any):
         """ test function"""
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
@@ -21,11 +22,11 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, "a",),
         ({"a": 1}, ("a", "b"))
         ])
-    def test_access_map_exception(self, nested_map: Mapping, path: Union[str, tuple]):
+    def test_access_map_exception(self, nested_map: Mapping,
+                                  path: Union[str, tuple]):
         """ tests for exceptions in access_nested_map func"""
         with self.assertRaises(KeyError):
             access_nested_map(nested_map, path)
-
 
 
 if __name__ == "__main__":
