@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """ test for utils module"""
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 from utils import access_nested_map
 from utils import get_json
 from utils import memoize
 from parameterized import parameterized
-from typing import Mapping, Any, Union
+from typing import Mapping, Any, Union, Callable
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -63,7 +63,7 @@ class TestClass:
 class TestMemoize(unittest.TestCase):
     """ Test suite for memoize function """
     @patch.object(TestClass, 'a_method', return_value=42)
-    def test_memoize(self, mock_a_method):
+    def test_memoize(self, mock_a_method: MagicMock):
         """ tests memoize function"""
         obj = TestClass()
 
