@@ -38,6 +38,85 @@ class TestGithubOrgClient(unittest.TestCase):
         repos_url = client._public_repos_url
         self.assertEqual(repos_url, mock_public_repos_url.return_value)
 
+    @patch("client.get_json")
+    def test_public_repos(self, mock_get_json: MagicMock) -> None:
+        """Test the public_repos method of GithubOrgClient."""
+        test_payload = {
+            'repos_url': "https://api.github.com/users/microsoft/repos",
+            'repos': [
+                {
+                    "id": 1234567,
+                    "name": "vscode",
+                    "private": False,
+                    "owner": {
+                        "login": "microsoft",
+                        "id": 123456,
+                    },
+                    "fork": False,
+                    "url": "https://api.github.com/repos/microsoft/vscode",
+                    "created_at": "2015-04-29T16:25:30Z",
+                    "updated_at": "2024-11-01T12:00:00Z",
+                    "has_issues": True,
+                    "forks": 500,
+                    "default_branch": "main",
+                },
+                {
+                    "id": 2345678,
+                    "name": "TypeScript",
+                    "private": False,
+                    "owner": {
+                        "login": "microsoft",
+                        "id": 123456,
+                    },
+                    "fork": False,
+                    "url": "https://api.github.com/repos/microsoft/TypeScript",
+                    "created_at": "2012-10-01T22:00:00Z",
+                    "updated_at": "2024-11-01T12:00:00Z",
+                    "has_issues": True,
+                    "forks": 200,
+                    "default_branch": "main",
+                },
+                {
+                    "id": 3456789,
+                    "name": "PowerToys",
+                    "private": False,
+                    "owner": {
+                        "login": "microsoft",
+                        "id": 123456,
+                    },
+                    "fork": False,
+                    "url": "https://api.github.com/repos/microsoft/PowerToys",
+                    "created_at": "2019-05-15T16:00:00Z",
+                    "updated_at": "2024-11-01T12:00:00Z",
+                    "has_issues": True,
+                    "forks": 150,
+                    "default_branch": "main",
+                },
+            ]
+        }
+
+        mock_get_json.return_value = test_payload["repos"]
+
+        with patch(
+            "client.GithubOrgClient._public_repos_url",
+            new_callable=PropertyMock,
+        ) as mock_public_repos_url:
+            mock_public_repos_url.return_value = test_payload["repos_url"]
+
+            client = GithubOrgClient("microsoft")
+
+            self.assertEqual(
+                client.public_repos(),
+                [
+                    "vscode",
+                    "TypeScript",
+                    "PowerToys",
+                ],
+            )
+
+            mock_public_repos_url.assert_called_once()
+            mock_get_json.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()
